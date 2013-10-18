@@ -1,0 +1,33 @@
+{
+  "name": "woodchuck",
+  "version": "0.0.0",
+  "description": "Wrapper around Loggly and console.log with configurable log levels",
+  "main": "logger.js",
+  "scripts": {
+    "test": "node ./tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MauriceButler/woodchuck.git"
+  },
+  "keywords": [
+    "log",
+    "loggly",
+    "console",
+    "logger",
+    "debug",
+    "level"
+  ],
+  "author": "Maurice Butler <maurice.butler@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MauriceButler/woodchuck/issues"
+  },
+  "devDependencies": {
+    "tape": "1.0.x",
+    "mockery": "1.4.x"
+  },
+  "dependencies": {
+    "loggly": "0.3.x"
+  }
+}
