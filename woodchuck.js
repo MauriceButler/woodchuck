@@ -35,12 +35,12 @@ module.exports = function(logglyKey, logLevel){
             logLevel = logLevels.log;
         }
 
-        if(!logglyKey){
-            sendToConsole(message, logLevel);
-            return;
-        }
-
         if(logLevel.value <= currentLogLevel.value){
+            if(!logglyKey){
+                sendToConsole(message, logLevel);
+                return;
+            }
+
             sendToLoggly(message, logLevel);
         }
     }
