@@ -1,8 +1,8 @@
 {
   "name": "woodchuck",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wrapper around Loggly and console.log with configurable log levels",
-  "main": "logger.js",
+  "main": "woodchuck.js",
   "scripts": {
     "test": "node ./tests/tests.js"
   },

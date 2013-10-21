@@ -4,9 +4,9 @@ var test = require('tape'),
 mockery.registerAllowables(['../woodchuck']);
 mockery.registerMock('loggly', {createClient: function(){}});
 
-function getCleanTestObject(logglyKey, logLevel){
+function getCleanTestObject(logglyKey, subDomain, logLevel){
     mockery.enable({ useCleanCache: true, warnOnReplace: false });
-    var woodchuck = require('../woodchuck')(logglyKey, logLevel);
+    var woodchuck = require('../woodchuck')(logglyKey, subDomain, logLevel);
     mockery.disable();
     return woodchuck;
 }
@@ -31,6 +31,7 @@ test('woodchuck created with params uses them', function (t) {
     t.plan(3);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
@@ -45,7 +46,7 @@ test('woodchuck created with params uses them', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.log(testMessage);
 });
 
@@ -53,6 +54,7 @@ test('woodchuck error send error type', function (t) {
     t.plan(4);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
@@ -68,19 +70,21 @@ test('woodchuck error send error type', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.error(testMessage);
 });
 
 test('woodchuck warn send warn type', function (t) {
-    t.plan(4);
+    t.plan(5);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
         createClient: function(config){
             t.equal(config.level, testLogLevel, 'correct log level');
+            t.equal(config.subdomain, testSubDomain, 'correct subdomain');
             return {
                 log: function(logglyKey, message){
                     t.equal(logglyKey, testLogglyKey, 'correct logglyKey');
@@ -91,7 +95,7 @@ test('woodchuck warn send warn type', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.warn(testMessage);
 });
 
@@ -99,6 +103,7 @@ test('woodchuck info send info type', function (t) {
     t.plan(4);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
@@ -114,7 +119,7 @@ test('woodchuck info send info type', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.info(testMessage);
 });
 
@@ -122,6 +127,7 @@ test('woodchuck debug send debug type', function (t) {
     t.plan(4);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
@@ -137,7 +143,7 @@ test('woodchuck debug send debug type', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.debug(testMessage);
 });
 
@@ -145,6 +151,7 @@ test('woodchuck log send log type', function (t) {
     t.plan(4);
     var testLogLevel = 'log',
         testLogglyKey = '123456',
+        testSubDomain = 'testDomain',
         testMessage = 'test message';
 
     mockery.registerMock('loggly', {
@@ -160,7 +167,7 @@ test('woodchuck log send log type', function (t) {
         }
     });
 
-    var woodchuck = getCleanTestObject(testLogglyKey, testLogLevel);
+    var woodchuck = getCleanTestObject(testLogglyKey, testSubDomain, testLogLevel);
     woodchuck.log(testMessage);
 });
 

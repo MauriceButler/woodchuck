@@ -1,4 +1,4 @@
-module.exports = function(logglyKey, logLevel){
+module.exports = function(logglyKey, subDomain, logLevel){
     var loggly = require('loggly'),
         logLevels = {
             error : { name: 'error', value: 1 },
@@ -9,6 +9,7 @@ module.exports = function(logglyKey, logLevel){
         },
         currentLogLevel = logLevels[logLevel] || logLevels.log,
         logglyConfig = {
+            subdomain: subDomain,
             level: currentLogLevel.name,
             json: true
         },
