@@ -71,7 +71,6 @@ test('woodchuck Exists', function (t) {
     var woodchuck = getCleanTestObject();
     t.ok(woodchuck, 'woodchuck Exists');
     t.equals(typeof woodchuck, 'object',  'woodchuck is an object');
-    t.end();
 });
 
 test('woodchuck created with params uses them', function (t) {
