@@ -11,13 +11,60 @@ function getCleanTestObject(logglyKey, subDomain, logLevel){
     return woodchuck;
 }
 
-// test('if not created with logglyKey uses console.log', function (t) {
-//     var testMessage = 'test message',
-//         woodchuck = getCleanTestObject();
+test('if not created with logglyKey uses console.log', function (t) {
+    t.plan(2);
 
-//     woodchuck.log(testMessage);
-//     t.end();
-// });
+    var testMessage = 'test message',
+        woodchuck = getCleanTestObject();
+
+    console.originalLog = console.log;
+
+    console.log = function(message){
+        t.equals(message.indexOf('LOG'), 0, 'starts with logLevel');
+        t.equals(message.split(' : ')[1], testMessage, 'correct formatting');
+    };
+
+    woodchuck.log(testMessage);
+
+    // If its dodgey and you know if clap your hands. CLAP! CLAP!
+    console.log = console.originalLog;
+});
+
+test('can handel nulls', function (t) {
+    t.plan(2);
+
+    var woodchuck = getCleanTestObject();
+
+    console.originalLog = console.log;
+
+    console.log = function(message){
+        // If its dodgey and you know if clap your hands. CLAP! CLAP!
+        console.log = console.originalLog;
+
+        t.equals(message.indexOf('LOG'), 0, 'starts with logLevel');
+        t.equals(message.split(' : ')[1], 'null', 'correct formatting');
+    };
+
+    woodchuck.log(null);
+});
+
+test('can handel undefined', function (t) {
+    t.plan(2);
+
+    var woodchuck = getCleanTestObject();
+
+    console.originalLog = console.log;
+
+    console.log = function(message){
+        // If its dodgey and you know if clap your hands. CLAP! CLAP!
+        console.log = console.originalLog;
+
+        t.equals(message.indexOf('LOG'), 0, 'starts with logLevel');
+        t.equals(message.split(' : ')[1], 'undefined', 'correct formatting');
+    };
+
+    woodchuck.log();
+});
 
 test('woodchuck Exists', function (t) {
     t.plan(2);

@@ -47,7 +47,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
     }
 
     function sendToConsole(message, logLevel){
-        console.log(logLevel.name.toUpperCase() + ' : ' + (message.stack || message));
+        console.log(logLevel.name.toUpperCase() + ' : ' + (message && message.stack || message));
     }
 
     function sendToLoggly(message, logLevel){
