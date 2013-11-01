@@ -9,6 +9,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
         },
         currentLogLevel = logLevels[logLevel] || logLevels.log,
         logglyConfig = {
+            inputUrl : "https://logs-01.loggly.com/inputs/",
             subdomain: subDomain,
             level: currentLogLevel.name,
             json: true
@@ -65,7 +66,11 @@ module.exports = function(logglyKey, subDomain, logLevel){
 
         message.level = logLevel.name;
 
-        client.log(logglyKey, message);
+        client.log(logglyKey, message, function(error, result) {
+            if (error) {
+                sendToConsole(error, logLevels.error);
+            }
+        });
     }
 
     return {
