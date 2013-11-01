@@ -16,23 +16,23 @@ module.exports = function(logglyKey, subDomain, logLevel){
         },
         client = loggly.createClient(logglyConfig);
 
-    function error(message, callback){
-        processMessage(message, logLevels.error, callback);
+    function error(message){
+        processMessage(message, logLevels.error);
     }
 
-    function warn(message, callback){
-        processMessage(message, logLevels.warn, callback);
+    function warn(message){
+        processMessage(message, logLevels.warn);
     }
 
-    function info(message, callback){
-        processMessage(message, logLevels.info, callback);
+    function info(message){
+        processMessage(message, logLevels.info);
     }
 
-    function debug(message, callback){
-        processMessage(message, logLevels.debug, callback);
+    function debug(message){
+        processMessage(message, logLevels.debug);
     }
 
-    function processMessage(message, logLevel, callback) {
+    function processMessage(message, logLevel) {
         if(!logLevel){
             logLevel = logLevels.log;
         }
@@ -43,7 +43,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
                 return;
             }
 
-            sendToLoggly(message, logLevel, callback);
+            sendToLoggly(message, logLevel);
         }
     }
 
@@ -51,7 +51,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
         console.log(logLevel.name.toUpperCase() + ' : ' + (message && message.stack || message && message.message || message));
     }
 
-    function sendToLoggly(message, logLevel, callback){
+    function sendToLoggly(message, logLevel){
 
         if(typeof message === 'string'){
             message = { message : message };
@@ -68,10 +68,8 @@ module.exports = function(logglyKey, subDomain, logLevel){
 
         client.log(logglyKey, message, function(error, result) {
             if (error) {
-                return callback(error);
+                sendToConsole(error, logLevels.error);
             }
-
-            return callback(null, result);
         });
     }
 
