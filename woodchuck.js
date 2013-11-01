@@ -9,29 +9,30 @@ module.exports = function(logglyKey, subDomain, logLevel){
         },
         currentLogLevel = logLevels[logLevel] || logLevels.log,
         logglyConfig = {
+            inputUrl : "https://logs-01.loggly.com/inputs/",
             subdomain: subDomain,
             level: currentLogLevel.name,
             json: true
         },
         client = loggly.createClient(logglyConfig);
 
-    function error(message){
-        processMessage(message, logLevels.error);
+    function error(message, callback){
+        processMessage(message, logLevels.error, callback);
     }
 
-    function warn(message){
-        processMessage(message, logLevels.warn);
+    function warn(message, callback){
+        processMessage(message, logLevels.warn, callback);
     }
 
-    function info(message){
-        processMessage(message, logLevels.info);
+    function info(message, callback){
+        processMessage(message, logLevels.info, callback);
     }
 
-    function debug(message){
-        processMessage(message, logLevels.debug);
+    function debug(message, callback){
+        processMessage(message, logLevels.debug, callback);
     }
 
-    function processMessage(message, logLevel) {
+    function processMessage(message, logLevel, callback) {
         if(!logLevel){
             logLevel = logLevels.log;
         }
@@ -42,7 +43,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
                 return;
             }
 
-            sendToLoggly(message, logLevel);
+            sendToLoggly(message, logLevel, callback);
         }
     }
 
@@ -50,7 +51,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
         console.log(logLevel.name.toUpperCase() + ' : ' + (message && message.stack || message && message.message || message));
     }
 
-    function sendToLoggly(message, logLevel){
+    function sendToLoggly(message, logLevel, callback){
 
         if(typeof message === 'string'){
             message = { message : message };
@@ -65,7 +66,13 @@ module.exports = function(logglyKey, subDomain, logLevel){
 
         message.level = logLevel.name;
 
-        client.log(logglyKey, message);
+        client.log(logglyKey, message, function(error, result) {
+            if (error) {
+                return callback(error);
+            }
+
+            return callback(null, result);
+        });
     }
 
     return {

@@ -11,5 +11,7 @@ pids
 logs
 results
 
+tests/loggly.js
+
 npm-debug.log
 node_modules
