@@ -9,7 +9,7 @@ module.exports = function(logglyKey, subDomain, logLevel){
         },
         currentLogLevel = logLevels[logLevel] || logLevels.log,
         logglyConfig = {
-            inputUrl : 'https://logs-01.loggly.com/inputs/',
+            inputUrl : "https://logs-01.loggly.com/inputs/",
             subdomain: subDomain,
             level: currentLogLevel.name,
             json: true
