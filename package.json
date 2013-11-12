@@ -28,6 +28,6 @@
     "mockery": "1.4.x"
   },
   "dependencies": {
-    "loggly": "git+ssh://git@github.com:nodejitsu/node-loggly.git#a3985d6eb0fd616cf0de04545c033632a07ee880"
+    "loggly": "git://github.com/nodejitsu/node-loggly#a3985d6eb0fd616cf0de04545c033632a07ee880"
   }
 }
